@@ -1,0 +1,57 @@
+
+<div class="header">
+    <div class="search">
+        <input class="form-control" type="text" name="search" [(ngModel)]="searchPost" autocomplete="off" placeholder="Search Posts....">
+    </div>
+    <div class="add">
+        <button class="add-buttion" (click)="gotoPage()">Add Post</button>
+    </div>
+</div>
+
+<div class="card-container">
+   
+    <ng-container *ngIf="( posts | filter : searchPost) as result">
+        <div class="card" *ngFor="let data of result">
+          
+                <div class="card-image">
+                    <img [src]="data.image" alt="Avatar">
+                </div>
+                <div class="card-data">
+                    <div class="card-content">
+                        <h4><b>{{data.text}}</b></h4>
+                        <div>
+                            <div class="profile-image">
+                                <img [src]="data.owner.picture" alt="Avatar">
+                            </div>
+                            <div> <i class="fa fa-thumbs-o-up" aria-hidden="true"></i>: {{data.likes}}</div>
+                        </div>
+                        <div class="tag">
+                            <div class="inner-tag" *ngFor="let tag of data.tags">
+                               {{tag}}
+                            </div>
+                        </div>
+                        
+                    </div>
+                    <div class="group-button">
+                        <button class="button" [routerLink]="'edit/' + data.id">Edit</button>
+                        <button class="button" (click)="deletePostData(data.id)">delete</button>
+                        <!-- <button (click)="gotoview()"> View</button> -->
+                    </div>
+                </div>
+            </div>
+        <p *ngIf="result.length === 0">No Record Found</p>  
+        </ng-container>
+    
+       
+
+    <!-- </div> -->
+    
+</div>
+<div class="pagination" *ngIf="pager">
+    <a href="javascript:;" (click)="prev()">&laquo;</a>
+    <a href="javascript:;" (click)="getPosts(n)" *ngFor="let n of pager.pages"
+        [class.active]="n === pager?.currentPage">
+        {{n}}
+    </a>
+    <a href="javascript:;" (click)="next()">&raquo;</a>
+</div>

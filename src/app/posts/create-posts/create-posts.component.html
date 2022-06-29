@@ -1,0 +1,58 @@
+<div class="form">
+    <h2>{{post ? ' Post Update Form' : 'Post Create Form'}}</h2>
+    <form [formGroup]="createPostForm">
+        <div class="form-group">
+            <label>Text : </label>
+            <input type="text" formControlName="text" name="text" placeholder="Enter text.."
+           
+            >
+           
+            
+        </div>
+
+        <div class="form-group">
+            <label for="lname">Likes : </label>
+            <input type="number" formControlName="likes" name="likes" placeholder="Enter likes..">
+        </div>
+
+        <div formArrayName="tags" class="form-group">
+            <label>Tag:</label>
+            <div *ngFor="let tag of tags().controls; let empIndex=index" style="display: inline-flex;">
+                <div [formGroupName]="empIndex" style=" width: 330px;">
+
+                    <input type="text" formControlName="tag" placeholder="Enter tags.." />
+
+
+                    <button class="btn-one" *ngIf="tags().controls.length !== 1" (click)="deleteTag(empIndex)"><i
+                            class="fa fa-times" aria-hidden="true"></i></button>
+
+                </div>
+            </div>
+
+            <button class="btn-one btn-two" type="button" (click)="addTag()">
+                <i class="fa fa-plus" aria-hidden="true"></i>
+            </button>
+
+        </div>
+
+        <div>
+            <label for="subject">Owner: </label>
+            <select class="custom-select" formControlName="owner" >
+
+                <option *ngFor="let user of usersData" [value]="user.id">
+                    {{user.firstName}} {{user.lastName}}
+                </option>
+            </select>
+        </div>
+
+        <div>
+            <label for="subject">Image : </label>
+            <input formControlName="image" name="image" placeholder="Enter image url..">
+        </div>
+
+    </form>
+    <div>
+        <button class="button" type="submit" [disabled]="createPostForm.invalid" (click)="onSubmit()">{{post ? 'Update Post' : 'Create Post'}}</button>
+        <button class="button-one button" type="cancel" routerLink="/posts">Cancel</button>
+    </div>
+</div>
